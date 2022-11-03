@@ -1,3 +1,4 @@
 .vs
-angularJwtRefreshToken\backend\netCoreApi\netCoreApi\bin\Debug\net6.0
-angularJwtRefreshToken\backend\netCoreApi\.vs
+\backend\netCoreApi\netCoreApi\bin\Debug\net6.0
+\backend\netCoreApi\.vs
+\backend\netCoreApi\netCoreApi\obj
