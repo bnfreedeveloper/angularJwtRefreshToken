@@ -24,7 +24,8 @@ namespace netCoreApi.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(new { success = false, error = "infos provided are wrong" });
             string accessToken = refresh.Token;
-            string refreshToken = refresh.RefreshToken; try
+            string refreshToken = refresh.RefreshToken;
+            try
             {
                 var principl = _tokenService.GetPrincipalFromExpiredToken(accessToken);
                 var username = principl?.Identity?.Name;
