@@ -72,7 +72,8 @@ namespace netCoreApi.Controllers
                         UserName = user.UserName,
                         Token = tokenDto.Token,
                         RefreshToken = refreshToken,
-                        Expiration = tokenDto.ValidTo
+                        Expiration = tokenDto.ValidTo,
+                        Message ="successfully logged in"
                     });
 
                 }
@@ -80,7 +81,7 @@ namespace netCoreApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Something went wrong");
+                return BadRequest(new { success = false, error = "something went wrong" });
             }
             
         } 
