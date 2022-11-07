@@ -1,22 +1,38 @@
 <div class="form-container">
     <div class="form signup">
-        <form>
+        <form [formGroup]="frmGroup" (ngSubmit)="onSubmit()">
             <div class=" title">
                 Signup
             </div>
 
             <div class="input-container">
                 <input type="text" name="name" class="input" placeholder="Name" formControlName="name">
+                <div class="msg error"
+                    *ngIf="frmvalue['name'].invalid && (frmvalue['name'].dirty || frmvalue['name'].touched)">
+                    Name is required
+                </div>
             </div>
 
             <div class="input-container">
                 <input formControlName="email" type="email" name="email" class="input" placeholder="Email">
+                <div class="msg error"
+                    *ngIf="frmvalue['email'].errors?.['required'] && (frmvalue['email'].dirty || frmvalue['email'].touched)">
+                    Email is required
+                </div>
+                <span class="error" *ngIf="frmvalue['email']?.errors?.['invalidPattern'] && 
+                !frmvalue['email'].errors?.['required']">
+                    email not valid
+                </span>
             </div>
 
 
 
             <div class="input-container">
-                <input type="text" formControlName="username" name="username" class="input" placeholder="Username">
+                <input type="text" formControlName="username" name="username" class="input" placeholder="username">
+                <div class="msg error"
+                    *ngIf="frmvalue['username'].invalid && (frmvalue['username'].dirty || frmvalue['username'].touched)">
+                    Username is required
+                </div>
             </div>
 
 
@@ -25,6 +41,16 @@
             <div class="input-container">
                 <input type="password" formControlName="password" name="password" class="input"
                     placeholder="Password (Format: Abc@1r)">
+                <div class="msg error"
+                    *ngIf="frmvalue['password'].errors?.['required']&& (frmvalue['password'].dirty || frmvalue['password'].touched)">
+                    Password is required
+
+                </div>
+                <span class="error"
+                    *ngIf="frmvalue['password']?.errors?.['invalidPattern'] && !frmvalue['password'].errors?.['required']">
+                    password not valid
+                </span>
+
             </div>
 
 
@@ -32,12 +58,23 @@
             <div class="input-container">
                 <input type="password" formControlName="confirmPassword" name="confirm password" class="input"
                     placeholder="Confirm Password">
+                <div class="msg error" id="last"
+                    *ngIf="frmvalue['confirmPassword'].errors?.['required'] && (frmvalue['confirmPassword'].dirty || frmvalue['confirmPassword'].touched)">
+                    Confirm password is required
+
+                </div>
+                <span class="error" *ngIf="frmvalue['confirmPassword']?.errors?.['mustMach']">
+                    Confirm password must the same as password
+                </span>
             </div>
 
 
 
-            <button type="submit" id="btnSubmit">Signup</button>
+            <button type="submit" id="btnSubmit" [disabled]="frmGroup.invalid">Signup</button>
 
+            <div class="light" *ngIf="responsePost.message">{{responsePost.message}}</div>
+
+            <div *ngIf="loading" class="lds-dual-ring"></div>
 
 
             <a routerLink="/login" class="link">Already a member? Login here</a>
