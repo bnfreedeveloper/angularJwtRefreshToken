@@ -1,23 +1,26 @@
 <div class="form-container">
     <div class="form login">
-
-        <div class="title">
-            Login
-        </div>
-        <div class="input-container">
-            <input type="text" formControlName="username" name="username" class="input" placeholder="Username">
-        </div>
-
-
-        <div class="input-container">
-            <input type="password" formControlName="password" name="password" class="input" placeholder="Password">
-        </div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="title">
+                Login
+            </div>
+            <div class="input-container">
+                <input type="text" formControlName="username" name="username" class="input" placeholder="Username">
+            </div>
 
 
+            <div class="input-container">
+                <input type="password" formControlName="password" name="password" class="input" placeholder="Password">
+            </div>
 
-        <button type="submit" id="btnSubmit">Login</button>
 
-        <a routerLink="/register" class="link">Not a member? Signup here</a>
+
+            <button type="submit" id="btnSubmit" [disabled]="form.invalid">Login</button>
+            <div *ngIf="loading" class="lds-dual-ring"></div>
+            <div [ngStyle]="message" *ngIf="loginResponse!=undefined">{{loginResponse.message}}</div>
+
+            <a routerLink="/register" class="link">Not a member? Signup here</a>
+        </form>
 
     </div>
 </div>
