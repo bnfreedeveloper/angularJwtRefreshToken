@@ -5,6 +5,9 @@ import { ValidatePattern } from 'src/app/Custom-validators/pattern-match.validat
 import { CheckMatch } from 'src/app/Custom-validators/must-mat.validator';
 import { CoreResponse } from "../../Models/coreResponse"
 import { delay, tap } from 'rxjs';
+import { TokenManagementService } from "../../services/tokenManagement.service"
+import { LoginResponse } from 'src/app/Models/loginResponse';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -15,12 +18,13 @@ export class RegisterComponent implements OnInit {
 
   frmGroup!: FormGroup;
   checkIfDirtyOrTouched!: boolean;
-  responsePost: CoreResponse = {};
+  responsePost: CoreResponse | LoginResponse = {};
   loading!: boolean;
   get frmvalue() {
     return this.frmGroup.controls;
   }
-  constructor(private authService: AuthenticationService, private fb: FormBuilder) { }
+  constructor(private authService: AuthenticationService, private fb: FormBuilder,
+    private TokenManagement: TokenManagementService, private router: Router) { }
 
   ngOnInit(): void {
     let regex = new RegExp('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,20}$')
@@ -53,10 +57,18 @@ export class RegisterComponent implements OnInit {
     this.responsePost.message = 'waiting...';
     this.authService.register(this.frmGroup.value).pipe(tap(() => {
       this.loading = true;
-    }), delay(2000)).subscribe({
+    }), delay(1500)).subscribe({
       next: response => {
-        this.responsePost = response;
+        this.responsePost = response
+        this.TokenManagement.AddUser((this.responsePost as LoginResponse).userName);
+        this.TokenManagement.AddToken((this.responsePost as LoginResponse).token);
+        this.TokenManagement.AddRefreshToken((this.responsePost as LoginResponse).refreshToken)
+        this.responsePost.message = "successfully registered";
         this.loading = false;
+        // setTimeout(() => {
+        //   this.router.navigate(["./dashboard"])
+        // }, 1500)
+        this.router.navigate(["./dashboard"])
       },
       error: err => {
         console.log(err)

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subject, tap } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ChangePassword } from '../Models/changePassword';
 import { CoreResponse } from '../Models/coreResponse';
@@ -15,7 +15,7 @@ import { TokenManagementService } from './tokenManagement.service';
 })
 export class AuthenticationService {
   private baseUrl = environment.baseUrl + "authentication/";
-  private $sendLoginInfos = new Subject<boolean>();
+  public $sendLoginInfos = new BehaviorSubject<boolean>(false);
   public $sendLoginStatus = this.$sendLoginInfos.asObservable();
   constructor(private http: HttpClient, private tokenManag: TokenManagementService,
     private router: Router) { }
@@ -24,9 +24,12 @@ export class AuthenticationService {
     return this.http.post<LoginResponse | CoreResponse>(this.baseUrl + "login", login)
       .pipe(this.sendLoginStatus())
   }
-  register(register: RegisterModel): Observable<CoreResponse> {
+  register(register: RegisterModel): Observable<CoreResponse | LoginResponse> {
     return this.http.post<CoreResponse>(this.baseUrl + "register", register)
-      .pipe(this.sendLoginStatus())
+      .pipe(switchMap((value) => {
+        return this.login({ username: register.username, password: register.password })
+
+      }))
   }
   changePassword(changePassword: ChangePassword): Observable<CoreResponse> {
     return this.http.post<CoreResponse>(this.baseUrl + "changePassword", changePassword)
