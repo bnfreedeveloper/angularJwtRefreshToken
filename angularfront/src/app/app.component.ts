@@ -12,7 +12,7 @@ export class AppComponent implements OnInit, DoCheck {
   title = 'angularfront';
   isLoggedIn!: boolean;
 
-  constructor(private authService: AuthenticationService, private TokenMang: TokenManagementService) {
+  constructor(private authService: AuthenticationService) {
   }
   ngOnInit() {
     this.authService.$sendLoginStatus.pipe(delay(1500)).subscribe(status => {
@@ -23,7 +23,7 @@ export class AppComponent implements OnInit, DoCheck {
     this.authService.logout();
   }
   ngDoCheck() {
-    this.isLoggedIn = this.TokenMang.checkLoggedIn() ?? false;
+    this.isLoggedIn = this.authService.isLoggedIn() ?? false;
   }
 
 }

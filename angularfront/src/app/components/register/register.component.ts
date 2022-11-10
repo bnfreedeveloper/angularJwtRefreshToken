@@ -50,6 +50,7 @@ export class RegisterComponent implements OnInit {
       validator: CheckMatch("password", "confirmPassword")
     })
     this.checkIfDirtyOrTouched = (this.frmvalue['password'].dirty || this.frmvalue['password'].touched)
+    if (this.TokenManagement.getUserName()) this.router.navigate(["./dashboard"]);
   }
   onSubmit() {
     console.log(this.frmGroup.value)

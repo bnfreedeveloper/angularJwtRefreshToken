@@ -39,7 +39,7 @@ export class AuthenticationService {
     this.$sendLoginInfos.next(false);
     setTimeout(() => {
       this.router.navigateByUrl("/login");
-    }, 1500)
+    }, 500)
 
   }
   isLoggedIn(): boolean {
