@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
           this.tokenManagement.AddUser(this.loginResponse.userName);
           this.tokenManagement.AddToken(this.loginResponse.token);
           this.tokenManagement.AddRefreshToken(this.loginResponse.refreshToken)
+          this.tokenManagement.getUserRoles();
           this.loading = false;
           this.form.reset();
           this.router.navigate(["./dashboard"])

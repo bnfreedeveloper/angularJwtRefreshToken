@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProtectAccessService } from 'src/app/services/protect-access.service';
 
 @Component({
   selector: 'app-admin',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminComponent implements OnInit {
 
-  constructor() { }
+  adminMessage!: string;
+  constructor(private protectAccess: ProtectAccessService) { }
 
   ngOnInit(): void {
+    this.protectAccess.getDataForAdmin().subscribe({
+      next: response => {
+        this.adminMessage = response.message;
+      },
+      error: err => {
+        console.log(err)
+      }
+    })
   }
-
 }

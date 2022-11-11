@@ -12,9 +12,9 @@
             <a routerLink="/user" routerLinkActive=" active">User Page</a>
         </li>
 
-        <!-- <li *ngIf="roles=='Admin'">
+        <li *ngIf="isAdmin == true">
             <a routerLink="/admin-page" routerLinkActive="active">Admin Page</a>
-        </li> -->
+        </li>
 
         <li>
             <a (click)="logout()" style="cursor:pointer">Logout</a>

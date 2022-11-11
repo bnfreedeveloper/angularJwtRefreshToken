@@ -12,13 +12,20 @@ namespace netCoreApi.Controllers
         [HttpGet]
         public IActionResult test()
         {
-            return Ok("only admin or user can see this message");
+            return Ok(new
+            {
+
+                message="only user and admin can see this"
+            });
         }
         [HttpGet("private")]
         [Authorize(Roles="Admin")]
         public IActionResult testo()
         {
-            return Ok("only admin can see this message");
+            return Ok(new
+            {
+                message = "only admin can see this message"
+            });
         }
     }
 }

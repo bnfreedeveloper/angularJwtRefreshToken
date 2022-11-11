@@ -1,6 +1,8 @@
 <div class="content">
     <div class="card">
         <!-- <span class="heading" *ngIf="status">{{status.message}}</span>  -->
-        user
+        <ng-container *ngIf="userMessage">
+            {{userMessage}}
+        </ng-container>
     </div>
 </div>

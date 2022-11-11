@@ -118,7 +118,7 @@ namespace netCoreApi.Controllers
             }
             //we can check for a special user name(not username) and add the admin role 
             //for the owner of the web app for ex 
-            if(user.Name =="jean valjeant") //we should check also for a special email adress too
+            if(user.Name =="jeanvaljeant") //we should check also for a special email adress too
             {
                 var chechRoleAdd = await _userManag.AddToRoleAsync(user, UserRoles.Admin);
                 if (!chechRoleAdd.Succeeded)

@@ -13,7 +13,7 @@ export class UserComponent implements OnInit {
   ngOnInit(): void {
     this.protectAccess.getData().subscribe({
       next: response => {
-
+        this.userMessage = response.message;
       },
       error: err => {
         console.log(err)
