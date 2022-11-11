@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import jwt_decode from "jwt-decode";
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Subject } from 'rxjs';
+import { RefreshService } from './refresh.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class TokenManagementService {
 
   private roles = new Subject<string[] | string>();
   public role = this.roles.asObservable()
-  constructor() { }
+  constructor(private refreshService: RefreshService) { }
 
   AddUser(username: string) {
     localStorage.setItem("username", username);
@@ -55,6 +56,12 @@ export class TokenManagementService {
       let role: string[] | string = decodedToken[roleAccess];
       this.roles.next(role)
     }
+
+  }
+  refreshToken() {
+    let token = this.getToken() ?? "";
+    let refreshToken = this.getRefreshToken() ?? "";
+    return this.refreshService.GenerateTokenRefresh({ token, refreshToken })
 
   }
 }

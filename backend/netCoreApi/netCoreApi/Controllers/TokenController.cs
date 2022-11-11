@@ -43,7 +43,7 @@ namespace netCoreApi.Controllers
             }
             catch(Exception ex)
             {
-                return BadRequest();
+                return BadRequest(new { success = false, error = "something went wrong" });
             }
         }
 
